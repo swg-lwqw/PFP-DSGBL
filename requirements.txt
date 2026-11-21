@@ -1,0 +1,28 @@
+# PFP-DSGBL — Pinned dependencies to reproduce the reported results
+
+# Environment: Python 3.10 (conda env: torch_env), CUDA 11.8, NVIDIA RTX 3090
+
+# The two index lines below are required: torch and dgl are distributed as
+# CUDA-specific wheels (tagged with +cu118), which pip cannot resolve from the default PyPI alone.
+#
+# After setting up the environment on a new machine, make sure to add the CUDA runtime
+# libraries to the system path, otherwise `import dgl` will fail with:
+# "libcusparse.so.11: cannot open shared object file":
+#   export LD_LIBRARY_PATH=$CONDA_PREFIX/lib:$LD_LIBRARY_PATH
+
+--extra-index-url https://download.pytorch.org/whl/cu118
+-f https://data.dgl.ai/wheels/cu118/release.html
+
+torch==2.0.1+cu118
+dgl==1.1.2+cu118
+
+numpy==1.26.4
+pandas==2.3.3
+scipy==1.10.0
+scikit-learn==1.1.0
+click==8.3.3
+tqdm==4.67.3
+
+# Optional dependency: only required when running tool/extract_esm.py to regenerate ESM-2 features.
+# The training scripts read the precomputed `esm2` column directly and do not need this for normal training.
+# fair-esm==0.4.2
